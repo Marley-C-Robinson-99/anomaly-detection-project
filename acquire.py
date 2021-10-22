@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import os
 import env
-
 def get_db_url(host = env.host, user = env.user, password = env.password, db = 'zillow'):
     return f'mysql+pymysql://{user}:{password}@{host}/{db}'
 
@@ -35,8 +34,11 @@ def get_cohort_information_data():
     '''
     gets our cohort csv and reads it into a pandas dataframe
     '''
-    if os.path.isfile("cohorts_information - cohorts.csv"):
-        df = pd.read_csv("cohorts_information - cohorts.csv",index_col = 0)
+    url = "https://raw.githubusercontent.com/Marley-C-Robinson-99/anomaly-detection-project/main/cohorts_information%20-%20cohorts.csv"
+    filename = "cohorts_information - cohorts.csv"
+    if os.path.isfile(filename):
+        df = pd.read_csv(filename, index_col = 0)
     else:
-        print('get csv from the google classroom')
+        df = pd.read_csv(url, index_col = 0)
+        df.to_csv(filename)
     return df
